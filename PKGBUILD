@@ -5,27 +5,22 @@ pkgname=iscan-plugin-ds-30
 pkgver=1.0.0
 pkgrel=3
 pkgdesc="iscan plugin for Epson WorkForce DS-30"
-arch=('i686' 'x86_64')
+arch=('x86_64')
 url="http://download.ebz.epson.net/dsc/search/01/search/?OSC=LX"
 license=('custom:AVASYSPL')
 depends=('iscan-data' 'iscan')
 install=ds-30.install
 changelog=ChangeLog
-
-if [ "$CARCH" = "i686" ]; then
-  _ARCH=i386
-  source=("http://a1227.g.akamai.net/f/1227/40484/7d/download.ebz.epson.net/dsc/f/01/00/01/84/60/9018908ffd7a0ecab2dc54cef547f8cbfc0dfee2/$pkgname"_"$pkgver-3_$_ARCH.deb")
-  md5sums=('c82053dee50e1853e0d743eb1ac6f82a')
-elif [ "$CARCH" = "x86_64" ]; then
-  _ARCH=amd64
-  source=("http://a1227.g.akamai.net/f/1227/40484/7d/download.ebz.epson.net/dsc/f/01/00/01/84/60/6af6aa32b61c47a3722bebb35d824c899d28ab51/$pkgname"_"$pkgver-3_$_ARCH.deb")
-  md5sums=('c29a43ac31608411a3bb64999fbb4c8e')
-fi
+source=("https://download2.ebz.epson.net/iscan/plugin/ds-30/deb/x64/iscan-ds-30-bundle-1.0.1.x64.deb.tar.gz")
+md5sums=('131fd1f68267b39003b6a13187a97113')
 
 build(){
+  root_pkg=iscan-ds-30-bundle-1.0.1.x64.deb
   cd $srcdir
-  ar vx $pkgname"_"$pkgver-3_$_ARCH.deb
-  tar -zxvf data.tar.gz
+  tar -xf $root_pkg.tar.gz
+  cd $root_pkg/plugins
+  ar vx ${pkgname}_${pkgver}-${pkgrel}_amd64.deb
+  tar -zxvf data.tar.gz -C $srcdir
 }
 
 package(){
